@@ -1,0 +1,59 @@
+{
+  "project": {
+    "bundle_id": "com.example.myapp",
+    "team_id": "ABCDE12345",
+    "localizations": ["en", "ja"],
+    "development_language": "en"
+  },
+  "artifact": {
+    "path": "build/MyApp.xcarchive"
+  },
+  "app_store_connect": {
+    "app_id": "1234567890"
+  },
+  "ads": {
+    "sdk": "admob",
+    "app_id": "ca-app-pub-0000000000000000~0000000000",
+    "ad_units": [
+      "ca-app-pub-0000000000000000/1111111111"
+    ],
+    "test_flag_keys": ["force_test_ads"]
+  },
+  "products": {
+    "subscriptions": ["com.example.myapp.premium.monthly"],
+    "non_consumables": ["com.example.myapp.removeads"],
+    "price_territory": "USA",
+    "paywall_disclosure_keys": {
+      "renewal notice": "paywall.legal.autorenew",
+      "Terms of Use link": "paywall.legal.terms",
+      "Privacy Policy link": "paywall.legal.privacy"
+    }
+  },
+  "screenshots": {
+    "dir": "docs/screenshots",
+    "required_display_types": ["APP_IPHONE_67", "APP_IPAD_PRO_3GEN_129"],
+    "min_per_set": 3,
+    "max_per_set": 10
+  },
+  "metadata": {
+    "dir": "docs/appstore"
+  },
+  "claims": {
+    "use_builtin_rules": true,
+    "rules": [
+      {
+        "label": "offline maps",
+        "copy": "offline maps|download maps",
+        "requires": "MKTileOverlay|offlineRegion"
+      }
+    ]
+  },
+  "review_notes": {
+    "use_builtin_rules": true,
+    "rules": []
+  },
+  "checks": {
+    "skip": [],
+    "downgrade": []
+  }
+}

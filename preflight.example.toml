@@ -1,0 +1,126 @@
+# appstore-preflight configuration.
+#
+# Copy to preflight.toml next to your .xcodeproj and edit. Every key is
+# optional: with no file at all the tool discovers what it can from the Xcode
+# project and the built artifact, and says which checks that weakened.
+#
+# TOML needs Python 3.11+ (or `pip install tomli`). On an older Python, write
+# the same settings as preflight.json -- see preflight.example.json.
+#
+# No credentials go in here. The App Store Connect key is read from the
+# environment; this file only names the variables.
+
+[project]
+# Usually all discoverable from the .xcodeproj. Set one when the discovery
+# gets it wrong, or to pin it.
+# app_target = "MyApp"
+# The configuration the submission is built from. Release when omitted; needed
+# only for a project that has no Release, where the settings would otherwise be
+# read from whichever configuration came first.
+# build_configuration = "Release"
+# bundle_id = "com.example.myapp"
+# team_id = "ABCDE12345"
+# info_plist = "MyApp/Info.plist"
+
+# Only needed when there is no Xcode project to ask, or when the project's
+# source phases do not describe what ships. Leaving this empty is better:
+# the build phases name the exact files that go into the app, so test targets
+# are excluded because they really are not in the app.
+# source_dirs = ["MyApp", "MyKit/Sources"]
+
+# The languages you claim to support. Discovered from CFBundleLocalizations
+# when omitted.
+# localizations = ["en", "ja"]
+# development_language = "en"
+
+[artifact]
+# The build to inspect. Strongly recommended: a repository with several build
+# directories makes auto-discovery a guess, and the tool will tell you which
+# of your candidates it picked and why, but picking is still a guess.
+# path = "build/MyApp.xcarchive"
+
+[app_store_connect]
+# The app's numeric Apple ID, from App Store Connect > App Information.
+# app_id = "1234567890"
+
+# Credentials come from the environment. These are the variable NAMES; the
+# defaults are shown, so you can just export ASC_ISSUER_ID, ASC_KEY_ID,
+# ASC_PRIVATE_KEY_PATH and ASC_APP_ID and delete this section.
+# issuer_id_env = "ASC_ISSUER_ID"
+# key_id_env = "ASC_KEY_ID"
+# private_key_path_env = "ASC_PRIVATE_KEY_PATH"
+# app_id_env = "ASC_APP_ID"
+
+[ads]
+# Leave sdk = "" if you ship no ad SDK; the ad checks then skip, saying so.
+# If an ad SDK IS linked and this is empty, ad-identifiers fails on purpose:
+# it has nothing to compare your build against, and a pass would mean nothing.
+sdk = ""
+# app_id = "ca-app-pub-0000000000000000~0000000000"
+# ad_units = [
+#   "ca-app-pub-0000000000000000/1111111111",
+#   "ca-app-pub-0000000000000000/2222222222",
+# ]
+# Keys in plists you bundle that force test ad units on.
+# test_flag_keys = ["force_test_ads"]
+
+[products]
+# Leave empty to read the product ids out of the source: any string literal
+# starting with your bundle id. Declare them when your ids do not share that
+# prefix.
+# subscriptions = ["com.example.myapp.premium.monthly"]
+# non_consumables = ["com.example.myapp.removeads"]
+# price_territory = "USA"
+
+# For a subscription paywall, the localization keys that carry each required
+# disclosure. Declaring these turns on the stronger assertion: that each key
+# has a row in every declared language, because a key with no row renders as
+# the key itself on screen.
+# [products.paywall_disclosure_keys]
+# "renewal notice" = "paywall.legal.autorenew"
+# "Terms of Use link" = "paywall.legal.terms"
+# "Privacy Policy link" = "paywall.legal.privacy"
+
+[screenshots]
+dir = "docs/screenshots"
+# Declare these to catch a display type you have not captured at all. Left
+# empty, the required set is derived from what is present, which only catches
+# one language missing what another has.
+# required_display_types = ["APP_IPHONE_67", "APP_IPAD_PRO_3GEN_129"]
+min_per_set = 1
+max_per_set = 10
+# Teach the tool a screen size it does not know yet.
+# [screenshots.extra_sizes]
+# "1320x2868" = "APP_IPHONE_67"
+
+[metadata]
+# A directory of checked-in App Store copy (.json, .txt or .md). Gives the
+# copy checks something real to read with no credentials configured -- without
+# it, an offline run can only see the app's own string literals.
+# dir = "docs/appstore"
+
+[claims]
+# Your own claim rules, on top of the built-in generic ones. `copy` is matched
+# against every piece of customer-facing text; `requires` must then match the
+# app's sources, or `forbids` must not.
+use_builtin_rules = true
+# [[claims.rules]]
+# label = "offline maps"
+# copy = "offline maps|download maps"
+# requires = "MKTileOverlay|offlineRegion"
+
+[review_notes]
+# Assertions your App Review Notes make, and the code fact each has to agree
+# with. The built-ins cover the common ones (no third-party SDKs, no ads, no
+# analytics, no in-app purchases, no accounts).
+use_builtin_rules = true
+# [[review_notes.rules]]
+# label = "demo account works"
+# claims = "demo account"
+# requires = "DEMO_USERNAME"
+
+[checks]
+# Names from `appstore-preflight --list`.
+skip = []
+# Turn a check's failures into warnings, for one you have knowingly accepted.
+downgrade = []

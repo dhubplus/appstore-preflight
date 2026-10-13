@@ -1,0 +1,36 @@
+[build-system]
+requires = ["setuptools>=61"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "appstore-preflight"
+version = "0.1.0"
+description = "Check an iOS app's project, build and App Store Connect record for what will get the submission rejected"
+readme = "README.md"
+license = { file = "LICENSE" }
+requires-python = ">=3.9"
+keywords = ["ios", "app-store", "app-store-connect", "release", "preflight"]
+classifiers = [
+  "Development Status :: 4 - Beta",
+  "Environment :: Console",
+  "Intended Audience :: Developers",
+  "License :: OSI Approved :: MIT License",
+  "Programming Language :: Python :: 3",
+  "Programming Language :: Python :: 3.9",
+  "Topic :: Software Development :: Quality Assurance",
+]
+
+# Nothing is required for the checks that read your repository or your build.
+dependencies = []
+
+[project.optional-dependencies]
+# Only the App Store Connect checks need these, and they are imported lazily.
+asc = ["pyjwt>=2.0", "cryptography>=3.4"]
+# TOML configuration on Python 3.9 and 3.10. Unnecessary on 3.11+.
+toml = ["tomli>=2.0; python_version < '3.11'"]
+
+[project.scripts]
+appstore-preflight = "appstore_preflight.cli:main"
+
+[tool.setuptools]
+packages = ["appstore_preflight", "appstore_preflight.checks"]

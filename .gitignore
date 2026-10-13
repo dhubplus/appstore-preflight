@@ -1,0 +1,12 @@
+__pycache__/
+*.py[cod]
+build/
+dist/
+*.egg-info/
+.venv/
+# Your own configuration and credentials, not the examples.
+preflight.toml
+preflight.json
+.preflight.toml
+.preflight.json
+.preflight.env
