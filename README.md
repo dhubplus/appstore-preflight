@@ -302,6 +302,20 @@ crash; it proves nothing about whether the endpoints still answer the way the
 snapshot assumes. A read-only run against a real app is the only thing that
 does, and it is worth doing before trusting the online half.
 
+## Claude Code Skill: ios-release-guard
+
+[`skills/ios-release-guard/SKILL.md`](skills/ios-release-guard/SKILL.md) is a
+separate, free Claude Code Skill (written in Japanese). It is not part of the
+preflight tool: it fixes the stop conditions and the proof of success when you
+ask Claude Code to take a build through archive, export, upload and
+App Store Connect processing to TestFlight. It does not submit for review.
+
+```sh
+mkdir -p ~/.claude/skills/ios-release-guard
+curl -fsSL -o ~/.claude/skills/ios-release-guard/SKILL.md \
+  https://raw.githubusercontent.com/dhubplus/appstore-preflight/main/skills/ios-release-guard/SKILL.md
+```
+
 ## Contributing a check
 
 A check is a function taking a `Context` and returning a `Result`. Two rules:
